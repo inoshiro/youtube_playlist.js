@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>youtube_playlistテストページ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/javascript" src="./js/youtube_playlist.js"></script>
+  </head>
+  <body>
+    <h1>テストページ</h1>
+    <div id="player"></div>
+    <div id="player_controller"></div>
+    <div id="song_list"></div>
+
+    <script>
+      var video_data = [
+        {id: 'XwZZeMNanKw', title: '【MV】地獄屋八丁荒らし／戌亥とこ'},
+        {id: '1zKxRErq_Xk', title: '【歌】めっちゃすぐ終わらなかった配信【戌亥とこ/にじさんじ】'},
+        {id: 'Q1t_vUj-fJQ', title: '【スナック戌亥】久しぶりのお歌、告知と共に【戌亥とこ/にじさんじ】'}
+      ];
+      var song_data = [
+        {id: 221, title: '地獄屋八丁荒らし', artist: '戌亥とこ', video_id: 'XwZZeMNanKw', start_at: 0, end_at: 234 },
+        {id: 204, title: 'ガーネット', artist: '奥華子', video_id: '1zKxRErq_Xk', start_at: 321, end_at: 636 },
+        {id: 205, title: 'Pretender', artist: 'Official髭男dism', video_id: '1zKxRErq_Xk', start_at: 808, end_at: 1129 },
+        {id: 199, title: 'カルマ', artist: 'BUMP OF CHICKEN', video_id: 'Q1t_vUj-fJQ', start_at: 553, end_at: 754 },
+        {id: 200, title: 'クリスマスソング', artist: 'back number', video_id: 'Q1t_vUj-fJQ', start_at:1052, end_at: 1902 }
+      ];
+
+      let player_config = new YouTubePlayerConfig('360', '640', 'XwZZeMNanKw', 'player');
+      player_config.player_init(song_data);
+    </script>
+    <script type="text/babel">
+      // なんとなくReact.jsとJSX使ってみる
+      class PlayerController extends React.Component {
+        render() {
+          return (
+          <div>
+            <a href="#" onClick={() => controller.prev()}>前へ</a> - 
+            <a href="#" onClick={() => controller.play_or_pause()}>再生/停止</a> - 
+            <a href="#" onClick={() => controller.next()}>次へ</a>
+          </div>
+          );
+        }
+      }
+      class SongList extends React.Component {
+        render() {
+          var list = [];
+          for(var i in song_data) {
+             list.push(<li>{song_data[i]['id']}, {song_data[i]['title']}</li>);
+          }
+          return (
+            <ul>
+              {list}
+            </ul>
+          );
+        }
+      }
+
+      ReactDOM.render(
+        <PlayerController />,
+        document.getElementById('player_controller')
+      )
+      ReactDOM.render(
+        <SongList />,
+        document.getElementById('song_list')
+      );
+    </script>
+  </body>
+</html>
